@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sample/pages/home_page/model/home_list_model.dart';
 import 'package:flutter_sample/pages/home_page/model/home_top_list_model.dart';
@@ -55,5 +57,23 @@ class HomePageViewModel with ChangeNotifier {
     }
     HomeTopListModel? data = await WanApi.instance().requestHomeTopList();
     return data.dataList;
+  }
+
+  Future collect(num? id) async{
+    int index = listData?.indexWhere((item) => item.id == id) ?? 0;
+    bool result = await WanApi.instance().requestCollect("$id");
+    if(result){
+      listData?[index].collect = true;
+      notifyListeners();
+    }
+  }
+
+  Future unCollected(num? id) async {
+        int index = listData?.indexWhere((item) => item.id == id) ?? 0;
+    bool result = await WanApi.instance().requestUnCollect("$id");
+    if(result){
+      listData?[index].collect = false;
+      notifyListeners();
+    }
   }
 }

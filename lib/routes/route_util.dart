@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/pages/webView/web_page.dart';
+import 'package:flutter_sample/pages/webView/webview_widget.dart';
 
 class RouteUtil {
   RouteUtil._();
@@ -94,5 +96,10 @@ class RouteUtil {
   /// 关闭当前页面；带返回值
   static void popOfData<T extends Object?>(BuildContext context, {T? data}) {
     Navigator.of(context).pop(data);
+  }
+
+/// 跳转WebView
+  static Future pushWebView(BuildContext context,String resource,{String? title,WebViewType? type = WebViewType.URL}){
+    return push(context, WebPage(loadresource: resource,title: title,type: type,));
   }
 }

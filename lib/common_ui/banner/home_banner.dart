@@ -58,7 +58,7 @@ class _HomeBannerState extends State<HomeBanner> {
         return Container(
           width: double.infinity,
           height: 150.r,
-          margin: EdgeInsets.only(left: 24.w, right: 24.w, top: 16.w),
+          margin: EdgeInsets.only(left: 10.w, right: 10.w, top: 16.w),
           child: Swiper(
             itemCount: snapshot.data?.bannerList?.length ?? 0,
             indicatorLayout: PageIndicatorLayout.NONE,

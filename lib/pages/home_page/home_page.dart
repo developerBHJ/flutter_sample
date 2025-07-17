@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/common_ui/banner/home_banner.dart';
+import 'package:flutter_sample/common_ui/smart_refresh_widget.dart';
+import 'package:flutter_sample/pages/home_page/model/home_list_model.dart';
 import 'package:flutter_sample/pages/home_page/widget/home_page_item.dart';
 import 'package:flutter_sample/pages/home_page/home_page_vm.dart';
+import 'package:flutter_sample/pages/webView/web_page.dart';
+import 'package:flutter_sample/pages/webView/webview_widget.dart';
+import 'package:flutter_sample/routes/route_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -50,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(title: Text("首页")),
           backgroundColor: Colors.white,
           body: SafeArea(
-            child: SmartRefresher(
+            child: SmartRefreshWidget(
               controller: _refreshController,
               onLoading: () {
                 refreshOrLoadMore(true);
@@ -64,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     HomeBanner(
                       controller: bannerController,
                       itemClick: (title, url) {
-                        print("title=$title  url=$url");
+                        RouteUtil.pushWebView(context,url,title: title);
                       },
                     ),
                     _listView(),
@@ -83,14 +88,21 @@ class _HomePageState extends State<HomePage> {
       builder: (context, value, child) {
         return ListView.builder(
           shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
-
-
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            HomeListItemData? model = viewModel.listData?[index];
             return HomePageItem(
-              model: viewModel.listData?[index],
-              itemCompletion: () => {},
-              imageCompletion: () => {},
+              model: model,
+              itemCompletion: (){
+                RouteUtil.pushWebView(context,model?.link ?? "",title: model?.title);
+              },
+              imageCompletion: () {
+                if(model?.collect == true){
+                  viewModel.collect(model?.id);
+                }else{
+                  viewModel.unCollected(model?.id);
+                }
+              },
             );
           },
           itemCount: viewModel.listData?.length ?? 0,

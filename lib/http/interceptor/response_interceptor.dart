@@ -42,4 +42,10 @@ class ResponseInterceptor extends Interceptor {
       handler.reject(DioException(requestOptions: response.requestOptions));
     }
   }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    // TODO: implement onError
+    super.onError(err, handler);
+  }
 }

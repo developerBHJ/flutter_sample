@@ -29,20 +29,3 @@ Map<String, dynamic> _$HomeBannerModelToJson(HomeBannerModel instance) =>
       'type': instance.type,
       'url': instance.url,
     };
-
-HomeBannerListModel _$HomeBannerListModelFromJson(Map<String, dynamic> json) =>
-    HomeBannerListModel(
-      bannerList:
-          (json['bannerList'] as List<dynamic>?)
-              ?.map(
-                (e) =>
-                    e == null
-                        ? null
-                        : HomeBannerModel.fromJson(e as Map<String, dynamic>),
-              )
-              .toList(),
-    );
-
-Map<String, dynamic> _$HomeBannerListModelToJson(
-  HomeBannerListModel instance,
-) => <String, dynamic>{'bannerList': instance.bannerList};

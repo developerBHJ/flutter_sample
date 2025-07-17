@@ -1,17 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_list_model.dart';
+part of 'search_list_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-HomeListModel _$HomeListModelFromJson(Map<String, dynamic> json) =>
-    HomeListModel(
+SearchListModel _$SearchListModelFromJson(Map<String, dynamic> json) =>
+    SearchListModel(
       curPage: json['curPage'] as num?,
       datas:
           (json['datas'] as List<dynamic>?)
-              ?.map((e) => HomeListItemData.fromJson(e as Map<String, dynamic>))
+              ?.map(
+                (e) => SearchListItemModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList(),
       offset: json['offset'] as num?,
       over: json['over'] as bool?,
@@ -20,7 +22,7 @@ HomeListModel _$HomeListModelFromJson(Map<String, dynamic> json) =>
       total: json['total'] as num?,
     );
 
-Map<String, dynamic> _$HomeListModelToJson(HomeListModel instance) =>
+Map<String, dynamic> _$SearchListModelToJson(SearchListModel instance) =>
     <String, dynamic>{
       'curPage': instance.curPage,
       'datas': instance.datas,
@@ -31,8 +33,8 @@ Map<String, dynamic> _$HomeListModelToJson(HomeListModel instance) =>
       'total': instance.total,
     };
 
-HomeListItemData _$HomeListItemDataFromJson(Map<String, dynamic> json) =>
-    HomeListItemData(
+SearchListItemModel _$SearchListItemModelFromJson(Map<String, dynamic> json) =>
+    SearchListItemModel(
       adminAdd: json['adminAdd'] as bool?,
       apkLink: json['apkLink'] as String?,
       audit: json['audit'] as num?,
@@ -62,7 +64,10 @@ HomeListItemData _$HomeListItemDataFromJson(Map<String, dynamic> json) =>
       shareUser: json['shareUser'] as String?,
       superChapterId: json['superChapterId'] as num?,
       superChapterName: json['superChapterName'] as String?,
-      tags: json['tags'] as List<dynamic>?,
+      tags:
+          (json['tags'] as List<dynamic>?)
+              ?.map((e) => Tags.fromJson(e as Map<String, dynamic>))
+              .toList(),
       title: json['title'] as String?,
       type: json['type'] as num?,
       userId: json['userId'] as num?,
@@ -70,41 +75,50 @@ HomeListItemData _$HomeListItemDataFromJson(Map<String, dynamic> json) =>
       zan: json['zan'] as num?,
     );
 
-Map<String, dynamic> _$HomeListItemDataToJson(HomeListItemData instance) =>
-    <String, dynamic>{
-      'adminAdd': instance.adminAdd,
-      'apkLink': instance.apkLink,
-      'audit': instance.audit,
-      'author': instance.author,
-      'canEdit': instance.canEdit,
-      'chapterId': instance.chapterId,
-      'chapterName': instance.chapterName,
-      'collect': instance.collect,
-      'courseId': instance.courseId,
-      'desc': instance.desc,
-      'descMd': instance.descMd,
-      'envelopePic': instance.envelopePic,
-      'fresh': instance.fresh,
-      'host': instance.host,
-      'id': instance.id,
-      'isAdminAdd': instance.isAdminAdd,
-      'link': instance.link,
-      'niceDate': instance.niceDate,
-      'niceShareDate': instance.niceShareDate,
-      'origin': instance.origin,
-      'prefix': instance.prefix,
-      'projectLink': instance.projectLink,
-      'publishTime': instance.publishTime,
-      'realSuperChapterId': instance.realSuperChapterId,
-      'selfVisible': instance.selfVisible,
-      'shareDate': instance.shareDate,
-      'shareUser': instance.shareUser,
-      'superChapterId': instance.superChapterId,
-      'superChapterName': instance.superChapterName,
-      'tags': instance.tags,
-      'title': instance.title,
-      'type': instance.type,
-      'userId': instance.userId,
-      'visible': instance.visible,
-      'zan': instance.zan,
-    };
+Map<String, dynamic> _$SearchListItemModelToJson(
+  SearchListItemModel instance,
+) => <String, dynamic>{
+  'adminAdd': instance.adminAdd,
+  'apkLink': instance.apkLink,
+  'audit': instance.audit,
+  'author': instance.author,
+  'canEdit': instance.canEdit,
+  'chapterId': instance.chapterId,
+  'chapterName': instance.chapterName,
+  'collect': instance.collect,
+  'courseId': instance.courseId,
+  'desc': instance.desc,
+  'descMd': instance.descMd,
+  'envelopePic': instance.envelopePic,
+  'fresh': instance.fresh,
+  'host': instance.host,
+  'id': instance.id,
+  'isAdminAdd': instance.isAdminAdd,
+  'link': instance.link,
+  'niceDate': instance.niceDate,
+  'niceShareDate': instance.niceShareDate,
+  'origin': instance.origin,
+  'prefix': instance.prefix,
+  'projectLink': instance.projectLink,
+  'publishTime': instance.publishTime,
+  'realSuperChapterId': instance.realSuperChapterId,
+  'selfVisible': instance.selfVisible,
+  'shareDate': instance.shareDate,
+  'shareUser': instance.shareUser,
+  'superChapterId': instance.superChapterId,
+  'superChapterName': instance.superChapterName,
+  'tags': instance.tags,
+  'title': instance.title,
+  'type': instance.type,
+  'userId': instance.userId,
+  'visible': instance.visible,
+  'zan': instance.zan,
+};
+
+Tags _$TagsFromJson(Map<String, dynamic> json) =>
+    Tags(name: json['name'] as String?, url: json['url'] as String?);
+
+Map<String, dynamic> _$TagsToJson(Tags instance) => <String, dynamic>{
+  'name': instance.name,
+  'url': instance.url,
+};

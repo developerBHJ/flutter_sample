@@ -1,3 +1,4 @@
+import 'package:json_annotation/json_annotation.dart';
 
 class BaseModel<T> {
   T? data;
@@ -12,3 +13,13 @@ class BaseModel<T> {
     errorMsg = json['errorMsg'];
   }
 }
+
+// abstract class Serializable<T extends JsonSerializable>{
+
+// List<T>? arrayFromJson(dynamic json){
+//   if(json != null && json is List){
+//     return json.map((element) => T.fromJson(element)).toList();
+//   }
+//   return null;
+// }
+// }

@@ -3,6 +3,11 @@ import 'package:flutter_sample/common_ui/banner/home_banner_model.dart';
 import 'package:flutter_sample/http/dio_instance.dart';
 import 'package:flutter_sample/pages/home_page/model/home_list_model.dart';
 import 'package:flutter_sample/pages/home_page/model/home_top_list_model.dart';
+import 'package:flutter_sample/pages/hot_key/model/common_websits_list_model.dart';
+import 'package:flutter_sample/pages/hot_key/model/hot_key_model.dart';
+import 'package:flutter_sample/pages/hot_key/model/search_list_model.dart';
+import 'package:flutter_sample/pages/knowledge/model/knowledge_model.dart';
+import 'package:flutter_sample/pages/login_register/model/user_model.dart';
 import 'package:flutter_sample/repository/api.dart';
 
 class WanApi {
@@ -37,10 +42,93 @@ class WanApi {
   /// 获取首页banner数据
   Future<List<HomeBannerModel?>?> requestHomeBannerList() async {
     Response response = await DioInstance.instance().get(path: "banner/json");
-    if (response.data is Map<String, dynamic>) {
-      HomeBannerListModel model = HomeBannerListModel.fromJson(response.data);
-      return model.bannerList ?? [];
+    HomeBannerListModel model = HomeBannerListModel.fromJson(response.data);
+    return model.bannerList ?? [];
+  }
+
+  /// 收藏文章
+  Future<bool> requestCollect(String id) async {
+    Response response = await DioInstance.instance().post(
+      path: "lg/collect/$id/json",
+    );
+    if (response.data != null && response.data == true) {
+      return true;
     }
-    return null;
+    return false;
+  }
+
+  /// 取消收藏文章
+  Future<bool> requestUnCollect(String id) async {
+    Response response = await DioInstance.instance().post(
+      path: "lg/uncollect_originId/$id/json",
+    );
+    if (response.data != null && response.data == true) {
+      return true;
+    }
+    return false;
+  }
+
+  /// 查询常用网站
+  Future<List<CommonWebsitsListModel>?> requestCommonWebsiteList() async {
+    Response response = await DioInstance.instance().get(path: "friend/json");
+    return CommonWebsitsListModel.arrayFromJson(response.data);
+  }
+
+  /// 查询搜索热词
+  Future<List<HotKeyModel>?> requestHotList() async {
+    Response response = await DioInstance.instance().get(path: "hotkey/json");
+    return HotKeyModel.arrayFromJson(response.data);
+  }
+
+  /// 根据关键词搜索
+  Future<List<SearchListItemModel>?> requestSearch({String? keyWord}) async {
+    Response response = await DioInstance.instance().post(
+      path: "article/query/0/json",
+      queryParameters: {"k": keyWord},
+    );
+    SearchListModel model = SearchListModel.fromJson(response.data);
+    return model.datas;
+  }
+
+  /// 查询知识体系数据
+  Future<List<KnowledgeModel>?> requestKnowlegeList() async {
+    Response response = await DioInstance.instance().get(path: "tree/json");
+    return [];
+  }
+
+  /// 注册
+  Future<UserInfoModel?> requestRegister(
+    String userName,
+    String password,
+    String repassword,
+  ) async {
+    Response response = await DioInstance.instance().post(
+      path: "user/register",
+      queryParameters: {
+        "username": userName,
+        "password": password,
+        "repassword": repassword,
+      },
+    );
+    UserInfoModel? model = UserInfoModel.fromJson(response.data);
+    return model;
+  }
+
+  /// 登录
+  Future<UserInfoModel?> requestLogin(String userName, String password) async {
+    Response response = await DioInstance.instance().post(
+      path: "user/login",
+      queryParameters: {"username": userName, "password": password},
+    );
+    UserInfoModel? model = UserInfoModel.fromJson(response.data);
+    return model;
+  }
+
+  /// 退出登录
+  Future<bool> requestLogout() async {
+    Response response = await DioInstance.instance().get(
+      path: "user/logout/json",
+    );
+    return response.data != null && response.data == true;
   }
 }

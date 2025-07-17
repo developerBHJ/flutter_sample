@@ -29,12 +29,17 @@ class HomeBannerModel {
   Map<String, dynamic> toJson() => _$HomeBannerModelToJson(this);
 }
 
-@JsonSerializable()
 class HomeBannerListModel {
   List<HomeBannerModel?>? bannerList = [];
 
   HomeBannerListModel({this.bannerList});
-  factory HomeBannerListModel.fromJson(Map<String, dynamic> json) =>
-      _$HomeBannerListModelFromJson(json);
-  Map<String, dynamic> toJson() => _$HomeBannerListModelToJson(this);
+  HomeBannerListModel.fromJson(dynamic json){
+    if(json != null && json is List){
+      json.forEach((obj){
+      HomeBannerModel model = HomeBannerModel.fromJson(obj);
+      bannerList?.add(model);
+      }
+      );
+    }
+  }
 }
