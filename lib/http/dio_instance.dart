@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_sample/http/http_method.dart';
+import 'package:flutter_sample/http/interceptor/cookie_interceptor.dart';
 import 'package:flutter_sample/http/interceptor/response_interceptor.dart';
 
 class DioInstance {
@@ -34,6 +35,7 @@ class DioInstance {
       responseType: responseType,
       contentType: contentType,
     );
+    _dio.interceptors.add(CookieInterceptor());
     _dio.interceptors.add(ResponseInterceptor());
     _dio.interceptors.add(LogInterceptor());
     _inited = true;
