@@ -5,11 +5,12 @@ import 'package:flutter_sample/repository/wan_api.dart';
 class KnowledgeViewModel with ChangeNotifier {
   List<KnowledgeModel>? dataSource;
 
-  Future reloadData() async {
+  Future reloadData({VoidCallback? completion}) async {
     List<KnowledgeModel>? list = await WanApi.instance().requestKnowlegeList();
     if (list?.isNotEmpty == true) {
       dataSource = list;
       notifyListeners();
     }
+    completion?.call();
   }
 }

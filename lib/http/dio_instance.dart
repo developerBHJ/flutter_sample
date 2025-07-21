@@ -35,6 +35,7 @@ class DioInstance {
       responseType: responseType,
       contentType: contentType,
     );
+    // 优先设置cookie拦截器
     _dio.interceptors.add(CookieInterceptor());
     _dio.interceptors.add(ResponseInterceptor());
     _dio.interceptors.add(LogInterceptor());

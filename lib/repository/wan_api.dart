@@ -6,6 +6,8 @@ import 'package:flutter_sample/pages/home_page/model/home_top_list_model.dart';
 import 'package:flutter_sample/pages/hot_key/model/common_websits_list_model.dart';
 import 'package:flutter_sample/pages/hot_key/model/hot_key_model.dart';
 import 'package:flutter_sample/pages/hot_key/model/search_list_model.dart';
+import 'package:flutter_sample/pages/knowledge/knowledge_detail_children.dart';
+import 'package:flutter_sample/pages/knowledge/model/knowledge_detail_item.dart';
 import 'package:flutter_sample/pages/knowledge/model/knowledge_model.dart';
 import 'package:flutter_sample/pages/login_register/model/user_model.dart';
 import 'package:flutter_sample/repository/api.dart';
@@ -93,7 +95,18 @@ class WanApi {
   /// 查询知识体系数据
   Future<List<KnowledgeModel>?> requestKnowlegeList() async {
     Response response = await DioInstance.instance().get(path: "tree/json");
-    return [];
+    List<KnowledgeModel> list = KnowledgeModel.arrayFromJson(response.data);
+    return list;
+  }
+
+    /// 查询知识体系数据
+  Future<List<KnowledgeDetailItem>?> requestKnowlegeDetailList(String cId,int pageCount) async {
+    Response response = await DioInstance.instance().get(path: "article/list/$pageCount/json",queryParameters: {"cid":cId});
+    dynamic list = response.data["datas"];
+    if (list != null && list is List){
+      return KnowledgeDetailItem.arrayFromJson(list);
+    }
+    return null;
   }
 
   /// 注册

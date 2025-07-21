@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flutter_sample/pages/knowledge/model/Knowledge_detail_param.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'knowledge_model.g.dart';
@@ -43,11 +46,28 @@ class KnowledgeModel {
 
   Map<String, dynamic> toJson() => _$KnowledgeModelToJson(this);
 
-  static List<KnowledgeModel> arrayFromJson(dynamic json){
-    if (json != null && json is List){
+  static List<KnowledgeModel> arrayFromJson(dynamic json) {
+    if (json != null && json is List) {
       return json.map((element) => KnowledgeModel.fromJson(element)).toList();
     }
     return [];
+  }
+
+  /// children标题集合
+  String? subTitle() {
+    return children?.map((element) => element.name).toString();
+  }
+
+  /// 知识体系下的文章列表(name,id)
+  List<KnowledgeDetailParam>? detailParams() {
+    return children
+        ?.map(
+          (element) => KnowledgeDetailParam(
+            id: "${element.id}",
+            title: element.name ?? "",
+          ),
+        )
+        .toList();
   }
 }
 
