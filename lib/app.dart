@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample/routes/route_util.dart';
 import 'package:flutter_sample/routes/routes.dart';
-import 'package:flutter_sample/widget/tab_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 设计尺寸
 Size get designSize {
@@ -31,15 +29,13 @@ class App extends StatelessWidget {
     return OKToast(
       child: ScreenUtilInit(
         designSize: designSize,
-        builder: (context, child) {
-          return MaterialApp(
-            theme: ThemeData(useMaterial3: true),
-            navigatorKey: RouteUtil.navigationKey,
-            onGenerateRoute: Routes.generateRoute,
-            initialRoute: RoutePath.home,
-            debugShowCheckedModeBanner: false,
-          );
-        },
+        child: MaterialApp(
+          theme: ThemeData(useMaterial3: true),
+          navigatorKey: RouteUtil.navigationKey,
+          onGenerateRoute: Routes.generateRoute,
+          initialRoute: RoutePath.home,
+          debugShowCheckedModeBanner: false,
+        ),
       ),
     );
   }

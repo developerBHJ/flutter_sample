@@ -1,7 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sample/Constants.dart';
+import 'package:flutter_sample/Utils/sp_utils.dart';
 import 'package:flutter_sample/common_ui/common_styles.dart';
+import 'package:flutter_sample/pages/about_page/about_page.dart';
+import 'package:flutter_sample/pages/my_collectes/my_collect.dart';
 import 'package:flutter_sample/pages/profile/model/profile_list_model.dart';
 import 'package:flutter_sample/pages/profile/profile_vm.dart';
 import 'package:flutter_sample/routes/route_util.dart';
@@ -109,6 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
         itemBuilder: (context, index) {
           return _listItemView(
             viewModel.settings[index],
+            index == 1,
             onTap: () {
               itemClick?.call(viewModel.settings[index]);
             },
@@ -120,7 +125,17 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _listItemView(ProfileListModel model, {GestureTapCallback? onTap}) {
+  Widget _listItemView(
+    ProfileListModel model,
+    bool showDot, {
+    GestureTapCallback? onTap,
+  }) {
+    return showDot
+        ? _selectorItem(model, onTap: onTap)
+        : _commonItem(model, onTap: onTap);
+  }
+
+  Widget _commonItem(ProfileListModel model, {GestureTapCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -145,9 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             child: Row(
               children: [
-                Expanded(
-                  child: Text(model.title ?? "", style: blackTextStyle13),
-                ),
+                Expanded(child: Text(model.title, style: blackTextStyle13)),
                 Image.asset(
                   "assets/images/img_arrow_right.png",
                   width: 30.r,
@@ -157,6 +170,65 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _selectorItem(ProfileListModel model, {GestureTapCallback? onTap}) {
+    return Selector<ProfileViewModel, bool>(
+      builder: (context, value, child) {
+        return GestureDetector(
+          onTap: onTap,
+          child: Column(
+            children: [
+              SizedBox(height: 16.r),
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(left: 12.r, right: 12.r),
+                padding: EdgeInsets.only(
+                  left: 12.r,
+                  top: 16.r,
+                  bottom: 16.r,
+                  right: 12.r,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.r,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(model.title, style: blackTextStyle13)),
+                    value ? _dotView() : SizedBox(width: 10.r),
+                    Image.asset(
+                      "assets/images/img_arrow_right.png",
+                      width: 30.r,
+                      height: 30.r,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      selector: (context, value) {
+        return value.needUpdate;
+      },
+    );
+  }
+
+  Widget _dotView() {
+    return Container(
+      margin: EdgeInsets.only(left: 3.r, right: 4.r),
+      width: 6.r,
+      height: 6.r,
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(3.r),
       ),
     );
   }
@@ -209,11 +281,12 @@ class _ProfilePageState extends State<ProfilePage> {
   void _itemClick(ProfileListModel model) {
     switch (model.id) {
       case ProfileListItemType.collect:
-        log(model.title);
+        RouteUtil.push(context, MyCollectPage());
       case ProfileListItemType.update:
-        log(model.title);
+        SpUtils.saveString(Constants.SP_NEW_APP_VERSION, "1.0");
+        viewModel.shuldShowUpdateDot();
       case ProfileListItemType.about:
-        log(model.title);
+        RouteUtil.push(context, AboutPage());
     }
   }
 }

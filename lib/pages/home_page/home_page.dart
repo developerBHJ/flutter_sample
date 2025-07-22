@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     HomeBanner(
                       controller: bannerController,
                       itemClick: (title, url) {
-                        RouteUtil.pushWebView(context,url,title: title);
+                        RouteUtil.pushWebView(context, url, title: title);
                       },
                     ),
                     _listView(),
@@ -93,13 +93,17 @@ class _HomePageState extends State<HomePage> {
             HomeListItemData? model = viewModel.listData?[index];
             return HomePageItem(
               model: model,
-              itemCompletion: (){
-                RouteUtil.pushWebView(context,model?.link ?? "",title: model?.title);
+              itemCompletion: () {
+                RouteUtil.pushWebView(
+                  context,
+                  model?.link ?? "",
+                  title: model?.title,
+                );
               },
               imageCompletion: () {
-                if(model?.collect == true){
+                if (model?.collect == false) {
                   viewModel.collect(model?.id);
-                }else{
+                } else {
                   viewModel.unCollected(model?.id);
                 }
               },

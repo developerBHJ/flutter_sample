@@ -10,6 +10,7 @@ import 'package:flutter_sample/pages/knowledge/knowledge_detail_children.dart';
 import 'package:flutter_sample/pages/knowledge/model/knowledge_detail_item.dart';
 import 'package:flutter_sample/pages/knowledge/model/knowledge_model.dart';
 import 'package:flutter_sample/pages/login_register/model/user_model.dart';
+import 'package:flutter_sample/pages/my_collectes/model/my_collect_model.dart';
 import 'package:flutter_sample/repository/api.dart';
 
 class WanApi {
@@ -99,11 +100,17 @@ class WanApi {
     return list;
   }
 
-    /// 查询知识体系数据
-  Future<List<KnowledgeDetailItem>?> requestKnowlegeDetailList(String cId,int pageCount) async {
-    Response response = await DioInstance.instance().get(path: "article/list/$pageCount/json",queryParameters: {"cid":cId});
+  /// 查询知识体系数据
+  Future<List<KnowledgeDetailItem>?> requestKnowlegeDetailList(
+    String cId,
+    int pageCount,
+  ) async {
+    Response response = await DioInstance.instance().get(
+      path: "article/list/$pageCount/json",
+      queryParameters: {"cid": cId},
+    );
     dynamic list = response.data["datas"];
-    if (list != null && list is List){
+    if (list != null && list is List) {
       return KnowledgeDetailItem.arrayFromJson(list);
     }
     return null;
@@ -143,5 +150,33 @@ class WanApi {
       path: "user/logout/json",
     );
     return response.data != null && response.data == true;
+  }
+
+  /// 查询我的收藏列表
+  Future<List<MyCollectListModel>?> requestMyCollectList(
+    String pageCount,
+  ) async {
+    Response response = await DioInstance.instance().get(
+      path: "lg/collect/list/$pageCount/json",
+    );
+    dynamic list = response.data["datas"];
+    if (list != null && list is List) {
+      return list
+          .map((element) => MyCollectListModel.fromJson(element))
+          .toList();
+    }
+    return null;
+  }
+
+  /// 我的收藏列表取消收藏
+  Future<bool> requestMyCollectCancel(String cid, String originId) async {
+    Response response = await DioInstance.instance().post(
+      path: "lg/uncollect/$cid/json",
+      queryParameters: {"originId": originId},
+    );
+    if (response.data != null && response.data == true) {
+      return true;
+    }
+    return false;
   }
 }

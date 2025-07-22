@@ -66,7 +66,7 @@ class _HomePageItemState extends State<HomePageItem> {
                   style: TextStyle(fontSize: 13.sp, color: Colors.green),
                 ),
                 const Expanded(child: SizedBox()),
-                _collectedImage(
+                collectedImage(
                   widget.model?.collect ?? false,
                   onTap: widget.imageCompletion,
                 ),
@@ -74,19 +74,6 @@ class _HomePageItemState extends State<HomePageItem> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _collectedImage(bool collected, {GestureTapCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Image.asset(
-        collected
-            ? "assets/images/img_collect.png"
-            : "assets/images/img_collect_grey.png",
-        width: 25.r,
-        height: 25.r,
       ),
     );
   }
